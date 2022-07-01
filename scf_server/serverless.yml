@@ -1,0 +1,31 @@
+app: ${env:NAME}
+name: webrtc-press-test
+stage: dev
+component: multi-scf
+
+inputs:
+  src:
+    src: ./src
+    exclude:
+      - .env
+  region: '${env:REGION}'
+  runtime: Nodejs12.16
+  memorySize: '${env:MEMORY_SIZE}'
+  timeout: '${env:RUN_TIMEOUT}'
+  environments:
+    - key: SLS_APP_NAME
+      value: '${app}'
+    - key: ENV
+      value: '${env:ENV}'
+    - key: APP_VERSION
+      value: '${env:APP_VERSION}'
+    - key: TZ
+      value: 'Asia/Shanghai'
+  functions:
+    index:
+      handler: index.main_handler
+      layers:
+        - name: '${env:LAYER_NAME}' 
+          version: '${env:LAYER_VERSION}' 
+
+
